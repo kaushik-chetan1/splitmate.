@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SplitMate — Hostel expenses, settled</title>
+<style>
+:root{--bg:#f5f6f2;--card:#fff;--ink:#172b25;--mut:#6b7a71;--line:#e3e8e2;--g:#245b45;--g2:#e4efe8;--gt:#fff;--red:#b94b45;--inp:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0f1b16;--card:#17261f;--ink:#e8f0ea;--mut:#93a69a;--line:#29392f;--g:#6fcf9b;--g2:#1d3a2c;--gt:#0f1b16;--red:#f08a83;--inp:#122019;color-scheme:dark}}
+:root[data-theme=dark]{--bg:#0f1b16;--card:#17261f;--ink:#e8f0ea;--mut:#93a69a;--line:#29392f;--g:#6fcf9b;--g2:#1d3a2c;--gt:#0f1b16;--red:#f08a83;--inp:#122019;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--card);z-index:20}
+button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}[hidden]{display:none!important}
+.mut{color:var(--mut);font-size:12px}.pos{color:var(--g)}.neg{color:var(--red)}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;height:62px;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(16px,calc((100vw - 1200px)/2))}
+.brand{display:flex;gap:10px;align-items:center;font-weight:800;font-size:19px;letter-spacing:-.5px}
+.brand i{font-style:normal;width:32px;height:32px;border-radius:9px;background:var(--g);color:var(--gt);display:grid;place-items:center}
+.hr{display:flex;gap:10px;align-items:center}.av{width:32px;height:32px;border-radius:50%;background:var(--g2);color:var(--g);display:grid;place-items:center;font-weight:700;font-size:12px}
+.lay{max-width:1200px;margin:0 auto;padding:22px 16px 60px;display:grid;grid-template-columns:190px 1fr;gap:26px}
+.nav{display:flex;flex-direction:column;gap:4px}.nav a{padding:11px 12px;border-radius:9px;font-weight:600;color:var(--mut);cursor:pointer;white-space:nowrap}
+.nav a.on,.nav a:hover{background:var(--g2);color:var(--g)}main{min-width:0}
+.hd{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:18px}
+h1{font-size:26px;letter-spacing:-.8px;margin:0 0 4px}h2{font-size:15px;margin:0 0 12px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}.stats .card{margin:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:16px;margin-bottom:14px;min-width:0}
+.stat b{display:block;font-size:24px;letter-spacing:-.7px;margin-top:4px}
+.grid{display:grid;grid-template-columns:1.1fr 1fr;gap:14px}.grid .card{margin:0}.grid{margin-bottom:14px}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:9px;padding:9px 13px;font-weight:700;font-size:12px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;color:var(--ink)}
+.btn.pri{background:var(--g);color:var(--gt);border-color:var(--g)}.btn.danger{color:var(--red)}.btn:disabled{opacity:.6}
+.row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}.row:last-child{border:0}
+.row .m{flex:1;min-width:0}.row.click{cursor:pointer}.ic{width:36px;height:36px;border-radius:10px;background:var(--g2);color:var(--g);display:grid;place-items:center;font-weight:800;font-size:12px}
+.bar{height:8px;border-radius:6px;background:var(--g2);overflow:hidden;margin-top:5px}.bar i{display:block;height:100%;background:var(--g)}
+.settle{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:8px}
+.settle .a{font-size:17px;font-weight:800}.acts{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:12px}
+.empty{text-align:center;color:var(--mut);padding:22px 10px}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px}th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.8px;color:var(--mut);padding:8px;border-bottom:1px solid var(--line)}td{padding:11px 8px;border-bottom:1px solid var(--line)}
+input,select,textarea{width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:8px;background:var(--inp);outline:none}input:focus,select:focus,textarea:focus{border-color:var(--g)}
+.f{margin-bottom:12px}.f label{display:block;font-size:11px;font-weight:700;color:var(--mut);margin-bottom:5px}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.brow{display:grid;grid-template-columns:1fr 1.2fr auto;gap:8px;align-items:center;margin:8px 0}
+.tabs{display:flex;gap:4px;background:var(--g2);padding:4px;border-radius:9px;margin-bottom:12px}.tabs button{flex:1;border:0;background:transparent;padding:8px;border-radius:7px;font-weight:700;font-size:12px;color:var(--mut)}.tabs button.on{background:var(--card);color:var(--g)}
+.sr{display:grid;grid-template-columns:1fr 110px;gap:8px;align-items:center;margin:6px 0}
+.it{border:1px solid var(--line);border-radius:10px;padding:9px;margin:8px 0}.r2{display:grid;grid-template-columns:1fr 90px auto;gap:6px}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}.chip{padding:4px 9px;border-radius:14px;border:1px solid var(--line);font-size:11px;cursor:pointer;color:var(--mut)}.chip.on{background:var(--g);color:var(--gt);border-color:var(--g)}
+#modal{position:fixed;inset:0;background:rgba(8,20,14,.5);z-index:40;display:none;align-items:center;justify-content:center;padding:14px}#modal.show{display:flex}
+.mbox{width:min(600px,100%);max-height:92vh;overflow:auto;background:var(--card);border-radius:16px;padding:20px}.mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.mh h3{margin:0;font-size:17px}
+#auth{min-height:100vh;display:grid;place-items:center;padding:20px}.abox{width:min(400px,100%);background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px}
+.err{color:var(--red);font-size:12px;min-height:18px;margin:6px 0}
+#toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:var(--ink);color:var(--bg);padding:10px 15px;border-radius:9px;font-size:12px;z-index:60;transition:.2s}#toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:820px){.lay{grid-template-columns:1fr;gap:14px}.nav{flex-direction:row;overflow-x:auto}.grid{grid-template-columns:1fr}h1{font-size:22px}}
+@media(max-width:520px){.stats{grid-template-columns:1fr 1fr}.stats .card:last-child{grid-column:span 2}.two{grid-template-columns:1fr}#un{display:none}.hd{flex-direction:column}}
+</style>
+</head>
+<body>
+<div id="auth">
+ <div class="abox">
+  <div class="brand" style="margin-bottom:6px"><i>S</i>SplitMate</div>
+  <p class="mut" style="margin:0 0 16px">Hostel expenses, settled in the fewest payments.</p>
+  <div class="tabs"><button id="tLogin" class="on" onclick="authMode('login')">Log in</button><button id="tSign" onclick="authMode('signup')">Sign up</button></div>
+  <div class="f" id="fName" hidden><label>Your name</label><input id="aName" autocomplete="name" placeholder="e.g. Chetan"></div>
+  <div class="f"><label>Email</label><input id="aEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>
+  <div class="f"><label>Password</label><input id="aPass" type="password" autocomplete="current-password" placeholder="At least 6 characters" onkeydown="if(event.key==='Enter')submitAuth()"></div>
+  <div class="err" id="aErr"></div>
+  <button class="btn pri" id="aBtn" style="width:100%;justify-content:center;padding:12px" onclick="submitAuth()">Log in</button>
+  <p class="mut" style="margin:14px 0 0">Accounts and data are stored in this browser only. Passwords are salted and hashed (PBKDF2).</p>
+ </div>
+</div>
+
+<div id="app" hidden>
+ <header>
+  <div class="brand"><i>S</i>SplitMate</div>
+  <div class="hr"><button class="btn" onclick="theme()" title="Toggle theme" aria-label="Toggle theme">◐</button><span class="av" id="av"></span><span class="mut" id="un"></span><button class="btn" onclick="logout()">Log out</button></div>
+ </header>
+ <div class="lay">
+  <nav class="nav">
+   <a data-p="dash" class="on" onclick="nav('dash')">▦ Dashboard</a><a data-p="groups" onclick="nav('groups')">◫ Groups</a><a data-p="exp" onclick="nav('exp')">↗ Expenses</a><a data-p="settle" onclick="nav('settle')">⇄ Settle up</a><a onclick="openBackup()">⇅ Backup</a>
+  </nav>
+  <main>
+   <section class="pg" id="p-dash"></section><section class="pg" id="p-groups" hidden></section><section class="pg" id="p-exp" hidden></section><section class="pg" id="p-settle" hidden></section>
+  </main>
+ </div>
+</div>
+
+<div id="modal"><div class="mbox"><div class="mh"><h3 id="mT"></h3><button class="btn" onclick="closeM()" aria-label="Close">×</button></div><div id="mB"></div></div></div>
+<div id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s),uid=()=>Math.random().toString(36).slice(2,9)+Date.now().toString(36).slice(-3);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money=p=>(p<0?'−':'')+'₹'+(Math.abs(p)/100).toLocaleString('en-IN',{minimumFractionDigits:p%100?2:0,maximumFractionDigits:2});
+const toP=v=>Math.round(parseFloat(v)*100)||0,today=()=>new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
+const fmtD=d=>new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',timeZone:'UTC'}),ini=s=>s.trim().split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();
+const UPI=/^[\w.\-]{2,256}@[a-zA-Z][a-zA-Z0-9]{1,63}$/;
+const mem={},LS={get(k,d){try{const v=localStorage.getItem(k);if(v)return JSON.parse(v)}catch(e){}return k in mem?mem[k]:d},set(k,v){mem[k]=v;try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){delete mem[k];try{localStorage.removeItem(k)}catch(e){}}};
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2600)}
+function openM(t,h){$('#mT').textContent=t;$('#mB').innerHTML=h;$('#modal').classList.add('show')}function closeM(){$('#modal').classList.remove('show')}
+function arm(b,fn){if(b.dataset.a){fn();return}const o=b.textContent;b.dataset.a=1;b.textContent='Tap again to confirm';setTimeout(()=>{delete b.dataset.a;b.textContent=o},3000)}
+function cp(s){(navigator.clipboard?navigator.clipboard.writeText(s):Promise.reject()).then(()=>toast('Copied.')).catch(()=>toast('Copy not available here.'))}
+function theme(){const r=document.documentElement,d=matchMedia('(prefers-color-scheme:dark)').matches;r.dataset.theme=(r.dataset.theme||(d?'dark':'light'))==='dark'?'light':'dark'}
+
+/* ---------- Data/auth layer (swap these for fetch() calls when a server is added) ---------- */
+const enc=new TextEncoder(),b64=b=>btoa(String.fromCharCode(...new Uint8Array(b)));
+async function hashPw(pw,salt){const k=await crypto.subtle.importKey('raw',enc.encode(pw),'PBKDF2',false,['deriveBits']);return b64(await crypto.subtle.deriveBits({name:'PBKDF2',salt:Uint8Array.from(atob(salt),c=>c.charCodeAt(0)),iterations:150000,hash:'SHA-256'},k,256))}
+const API={
+ async register(name,email,pw){email=email.trim().toLowerCase();const us=LS.get('sm_users',[]);if(us.some(u=>u.email===email))throw Error('This email is already registered. Try logging in.');const salt=b64(crypto.getRandomValues(new Uint8Array(16))),u={id:uid(),name:name.trim(),email,salt,hash:await hashPw(pw,salt)};us.push(u);LS.set('sm_users',us);return this.sess(u)},
+ async login(email,pw){email=email.trim().toLowerCase();const u=LS.get('sm_users',[]).find(x=>x.email===email);if(!u||await hashPw(pw,u.salt)!==u.hash)throw Error('Incorrect email or password.');return this.sess(u)},
+ sess(u){const s={id:u.id,name:u.name,email:u.email};LS.set('sm_session',s);return s},
+ restore(){const s=LS.get('sm_session',null);return s&&LS.get('sm_users',[]).some(u=>u.id===s.id)?s:null},
+ load:id=>LS.get('sm_data_'+id,{groups:[],tx:[]}),save:(id,d)=>LS.set('sm_data_'+id,d)
+};
+let user=null,db=null,amode='login',sm='equal',items=[],fE='all',fS='all';
+function authMode(m){amode=m;$('#tLogin').classList.toggle('on',m==='login');$('#tSign').classList.toggle('on',m==='signup');$('#fName').hidden=m!=='signup';$('#aBtn').textContent=m==='login'?'Log in':'Create account';$('#aErr').textContent=''}
+async function submitAuth(){const e=$('#aEmail').value,p=$('#aPass').value,n=$('#aName').value,b=$('#aBtn');$('#aErr').textContent='';
+ try{if(!/^\S+@\S+\.\S+$/.test(e))throw Error('Enter a valid email.');if(p.length<6)throw Error('Password needs at least 6 characters.');if(amode==='signup'&&!n.trim())throw Error('Enter your name.');
+  b.disabled=true;if(!window.crypto||!crypto.subtle)throw Error('Secure login needs HTTPS.');start(amode==='signup'?await API.register(n,e,p):await API.login(e,p))}
+ catch(x){$('#aErr').textContent=x.message}finally{b.disabled=false}}
+function start(s){user=s;db=API.load(s.id);$('#auth').hidden=true;$('#app').hidden=false;$('#av').textContent=ini(s.name);$('#un').textContent=s.name;$('#aPass').value='';nav('dash');render()}
+function logout(){LS.del('sm_session');user=db=null;closeM();$('#app').hidden=true;$('#auth').hidden=false}
+function save(){API.save(user.id,db);render()}
+
+/* ---------- Core logic ---------- */
+const gb=id=>db.groups.find(g=>g.id===id),me=g=>g.members.find(m=>m.me),nmOf=(g,id)=>g?.members.find(m=>m.id===id)?.name||'?';
+function bal(g){const b={};g.members.forEach(m=>b[m.id]=0);db.tx.filter(t=>t.gid===g.id).forEach(t=>{if(t.type==='pay'){b[t.from]+=t.amount;b[t.to]-=t.amount}else{b[t.payer]+=t.amount;for(const k in t.shares)b[k]-=t.shares[k]}});return b}
+function splitInt(total,w){const ids=Object.keys(w).filter(k=>w[k]>0),S=ids.reduce((a,k)=>a+w[k],0),out={},fr=[];let used=0;ids.forEach(k=>{const x=total*w[k]/S,f=Math.floor(x);out[k]=f;used+=f;fr.push([k,x-f])});fr.sort((a,b)=>b[1]-a[1]);for(let i=0;i<total-used;i++)out[fr[i%fr.length][0]]++;return out}
+function pairUp(ids,b){const d=[],c=[],out=[];ids.forEach(k=>b[k]<0?d.push([k,-b[k]]):c.push([k,b[k]]));d.sort((x,y)=>y[1]-x[1]);c.sort((x,y)=>y[1]-x[1]);let i=0,j=0;while(i<d.length&&j<c.length){const x=Math.min(d[i][1],c[j][1]);out.push({from:d[i][0],to:c[j][0],amount:x});d[i][1]-=x;c[j][1]-=x;if(!d[i][1])i++;if(!c[j][1])j++}return out}
+/* Minimum transactions: split people into the MAXIMUM number of independent zero-sum groups (bitmask DP, O(n·2^n)); a group of k people needs exactly k-1 payments. */
+function settle(g){const b=bal(g),ids=Object.keys(b).filter(k=>b[k]!==0),n=ids.length;if(!n)return[];let groups=[];
+ if(n<=16){const N=1<<n,sum=new Float64Array(N),dp=new Int8Array(N),par=new Int8Array(N);
+  for(let m=1;m<N;m++){const low=m&-m;sum[m]=sum[m^low]+b[ids[31-Math.clz32(low)]];let best=-1,bi=0;for(let i=0;i<n;i++)if(m>>i&1){const v=dp[m^(1<<i)];if(v>best){best=v;bi=i}}dp[m]=best+(sum[m]===0?1:0);par[m]=bi}
+  const order=[];let m=N-1;while(m){order.push(par[m]);m^=1<<par[m]}order.reverse();let cur=[],s=0;for(const i of order){cur.push(ids[i]);s+=b[ids[i]];if(s===0){groups.push(cur);cur=[]}}
+ }else groups=[ids];
+ return groups.flatMap(x=>pairUp(x,b))}
+const upiLink=(g,to,amt)=>`upi://pay?pa=${encodeURIComponent(to.upi)}&pn=${encodeURIComponent(to.name)}&am=${(amt/100).toFixed(2)}&cu=INR&tn=${encodeURIComponent('SplitMate '+g.name)}`;
+function recordPay(gid,from,to,amt){db.tx.unshift({id:uid(),gid,type:'pay',from,to,amount:amt,date:today(),title:'Settlement'});save();toast('Payment recorded.')}
+
+/* ---------- Rendering ---------- */
+const stat=(l,v,c='')=>`<div class="card stat"><span class="mut">${l}</span><b class="${c}">${v}</b></div>`;
+function settleHTML(g){const tx=settle(g);if(!tx.length)return'<div class="empty">Everyone is settled up. 🎉</div>';
+ return tx.map(t=>{const f=g.members.find(m=>m.id===t.from),o=g.members.find(m=>m.id===t.to),ok=o.upi&&UPI.test(o.upi),l=ok?upiLink(g,o,t.amount):'';
+ return`<div class="settle"><div><b>${esc(f.name)}${f.me?' (you)':''}</b> <span class="mut">pays</span> <b>${esc(o.name)}${o.me?' (you)':''}</b><div class="mut">${esc(g.name)}${ok?'':' · add '+esc(o.name)+'’s UPI ID in group details'}</div></div><div style="text-align:right"><div class="a">${money(t.amount)}</div><div class="acts" style="margin:6px 0 0">${ok?`<a class="btn pri" href="${esc(l)}">Pay via UPI ↗</a><button class="btn" data-c="${esc(l)}" onclick="cp(this.dataset.c)">Copy link</button>`:`<button class="btn" onclick="showG('${g.id}')">Add UPI</button>`}<button class="btn" onclick="recordPay('${g.id}','${t.from}','${t.to}',${t.amount})">Mark paid</button></div></div></div>`}).join('')}
+function renderDash(){let total=0,owed=0,owe=0;const sp=db.groups.map(g=>{const s=db.tx.filter(t=>t.gid===g.id&&t.type==='exp').reduce((a,t)=>a+t.amount,0);total+=s;const v=bal(g)[me(g).id];v>0?owed+=v:owe-=v;return[g.name,s]}).sort((a,b)=>b[1]-a[1]);
+ const mx=Math.max(1,...sp.map(x=>x[1])),first=user.name.split(' ')[0];
+ const act=db.tx.slice(0,6).map(t=>{const g=gb(t.gid);return`<div class="row"><div class="ic">${t.type==='pay'?'⇄':'↗'}</div><div class="m"><b>${esc(t.type==='pay'?nmOf(g,t.from)+' → '+nmOf(g,t.to):t.title)}</b><div class="mut">${esc(g?.name)} · ${fmtD(t.date)}</div></div><b>${money(t.amount)}</b></div>`}).join('')||'<div class="empty">No activity yet.</div>';
+ $('#p-dash').innerHTML=`<div class="hd"><div><h1>Hi, ${esc(first)} 👋</h1><div class="mut">Here’s where your shared spending stands.</div></div><button class="btn pri" onclick="openExp()">＋ Add expense</button></div>
+ <div class="stats">${stat('Total group spending',money(total))}${stat('You are owed',money(owed),'pos')}${stat('You owe',money(owe),'neg')}</div>
+ ${db.groups.length?'':`<div class="card empty"><b style="color:var(--ink)">Start with a group</b><br>Create your hostel room, trip or flat — or load a sample to explore.<div class="acts" style="justify-content:center"><button class="btn pri" onclick="openGroup()">＋ New group</button><button class="btn" onclick="demo()">Load sample group</button></div></div>`}
+ <div class="grid"><div class="card"><h2>Spending by group</h2>${sp.length?sp.map(([n,s])=>`<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between"><span>${esc(n)}</span><b>${money(s)}</b></div><div class="bar"><i style="width:${Math.round(s/mx*100)}%"></i></div></div>`).join(''):'<div class="empty">No groups yet.</div>'}</div><div class="card"><h2>Recent activity</h2>${act}</div></div>
+ <div class="card"><h2>Settle up — fewest payments</h2>${db.groups.length?db.groups.map(g=>`<div style="margin-bottom:10px"><div style="font-weight:800;margin-bottom:8px">${esc(g.name)}</div>${settleHTML(g)}</div>`).join(''):'<div class="empty">Suggestions appear once you add expenses.</div>'}</div>`}
+function renderGroups(){$('#p-groups').innerHTML=`<div class="hd"><div><h1>Groups</h1><div class="mut">Keep each room, trip or flat separate.</div></div><button class="btn pri" onclick="openGroup()">＋ New group</button></div><div class="card">${db.groups.map(g=>{const s=db.tx.filter(t=>t.gid===g.id&&t.type==='exp').reduce((a,t)=>a+t.amount,0),v=bal(g)[me(g).id];return`<div class="row click" onclick="showG('${g.id}')"><div class="ic">${esc(ini(g.name))}</div><div class="m"><b>${esc(g.name)}</b><div class="mut">${g.members.length} members · ${esc(g.type)}</div></div><div style="text-align:right"><b>${money(s)}</b><div class="mut ${v<0?'neg':v>0?'pos':''}">${v?(v>0?'you’re owed ':'you owe ')+money(Math.abs(v)):'settled'}</div></div></div>`}).join('')||'<div class="empty">No groups yet.</div>'}</div>`}
+function renderExp(){const l=db.tx.filter(t=>fE==='all'||t.gid===fE);$('#p-exp').innerHTML=`<div class="hd"><div><h1>Expenses</h1><div class="mut">Every bill and payment, in one place.</div></div><button class="btn pri" onclick="openExp()">＋ Add expense</button></div><div class="card"><div class="f" style="max-width:260px"><select onchange="fE=this.value;renderExp()"><option value="all">All groups</option>${db.groups.map(g=>`<option value="${g.id}" ${fE===g.id?'selected':''}>${esc(g.name)}</option>`).join('')}</select></div><div class="tw"><table><thead><tr><th>Description</th><th>Group</th><th>Paid by</th><th>Date</th><th>Amount</th><th></th></tr></thead><tbody>${l.map(t=>{const g=gb(t.gid);return`<tr><td><b>${esc(t.type==='pay'?'Settlement':t.title)}</b><div class="mut">${t.type==='pay'?'payment recorded':esc(t.mode)+' split'}</div></td><td>${esc(g?.name)}</td><td>${esc(nmOf(g,t.type==='pay'?t.from:t.payer))}${t.type==='pay'?' → '+esc(nmOf(g,t.to)):''}</td><td>${fmtD(t.date)}</td><td><b>${money(t.amount)}</b></td><td><button class="btn danger" onclick="arm(this,()=>delTx('${t.id}'))">Delete</button></td></tr>`}).join('')||'<tr><td colspan="6" class="empty">No expenses found.</td></tr>'}</tbody></table></div></div>`}
+function renderSettle(){const l=db.groups.filter(g=>fS==='all'||g.id===fS);$('#p-settle').innerHTML=`<div class="hd"><div><h1>Settle up</h1><div class="mut">Minimum number of payments, each with a UPI deep link. No money moves through SplitMate.</div></div></div><div class="card"><div class="f" style="max-width:260px"><select onchange="fS=this.value;renderSettle()"><option value="all">All groups</option>${db.groups.map(g=>`<option value="${g.id}" ${fS===g.id?'selected':''}>${esc(g.name)}</option>`).join('')}</select></div>${l.map(g=>`<div style="font-weight:800;margin:8px 0">${esc(g.name)}</div>${settleHTML(g)}`).join('')||'<div class="empty">Create a group first.</div>'}</div>`}
+function render(){renderDash();renderGroups();renderExp();renderSettle()}
+function nav(p){document.querySelectorAll('.pg').forEach(x=>x.hidden=x.id!=='p-'+p);document.querySelectorAll('.nav a[data-p]').forEach(a=>a.classList.toggle('on',a.dataset.p===p))}
+function delTx(id){db.tx=db.tx.filter(t=>t.id!==id);save();toast('Deleted.')}
+
+/* ---------- Groups ---------- */
+function addMI(n='',isMe){const d=document.createElement('div');d.className='brow';d.innerHTML=`<input class="mn" placeholder="Member name" value="${esc(n)}" ${isMe?'data-me=1 readonly':''}><input class="mu" placeholder="UPI ID (optional)"><${isMe?'span':'button class="btn" onclick="this.parentElement.remove()" aria-label="Remove"'}>${isMe?'':'×'}</${isMe?'span':'button'}>`;$('#gm').appendChild(d)}
+function openGroup(){openM('Create a group',`<div class="f"><label>Group name</label><input id="gn" placeholder="e.g. Block C · Room 204"></div><div class="f"><label>Type</label><select id="gt"><option>Hostel</option><option>Trip</option><option>Flat / Roommates</option><option>Food &amp; outings</option><option>Other</option></select></div><div class="f"><label>Members (you’re included)</label><div id="gm"></div><button class="btn" onclick="addMI()">＋ Add member</button></div><div class="acts"><button class="btn pri" onclick="saveG()">Create group</button></div>`);addMI(user.name,1);addMI();addMI()}
+function saveG(){const name=$('#gn').value.trim(),ms=[...document.querySelectorAll('#gm .brow')].map(r=>({id:uid(),name:r.querySelector('.mn').value.trim(),upi:r.querySelector('.mu').value.trim(),me:r.querySelector('.mn').dataset.me?1:0})).filter(m=>m.name);
+ if(!name)return toast('Give the group a name.');if(ms.length<2)return toast('Add at least two members.');if(new Set(ms.map(m=>m.name.toLowerCase())).size<ms.length)return toast('Member names must be unique.');const bad=ms.find(m=>m.upi&&!UPI.test(m.upi));if(bad)return toast('Check UPI ID for '+bad.name+'.');
+ db.groups.push({id:uid(),name,type:$('#gt').value,members:ms,created:Date.now()});closeM();save();toast('Group created.')}
+function showG(id){const g=gb(id),b=bal(g);openM(g.name,`<p class="mut" style="margin-top:0">${esc(g.type)} · balances and UPI IDs</p>${g.members.map(m=>`<div class="brow"><span>${esc(m.name)}${m.me?' (you)':''}</span><input id="u_${m.id}" value="${esc(m.upi||'')}" placeholder="name@oksbi"><b class="${b[m.id]<0?'neg':'pos'}">${b[m.id]>0?'+':''}${money(b[m.id])}</b></div>`).join('')}<div class="brow"><input id="nm" placeholder="Add member"><input id="nu" placeholder="UPI ID (optional)"><button class="btn" onclick="addMem('${id}')">Add</button></div><div class="acts" style="justify-content:space-between"><button class="btn danger" onclick="arm(this,()=>delG('${id}'))">Delete group</button><button class="btn pri" onclick="saveU('${id}')">Save UPI IDs</button></div>`)}
+function saveU(id){const g=gb(id);for(const m of g.members){const v=$('#u_'+m.id).value.trim();if(v&&!UPI.test(v))return toast('Invalid UPI ID for '+m.name+'.')}g.members.forEach(m=>m.upi=$('#u_'+m.id).value.trim());closeM();save();toast('UPI IDs saved.')}
+function addMem(id){const g=gb(id),n=$('#nm').value.trim(),u=$('#nu').value.trim();if(!n)return toast('Enter a name.');if(g.members.some(m=>m.name.toLowerCase()===n.toLowerCase()))return toast('That name already exists.');if(u&&!UPI.test(u))return toast('Invalid UPI ID.');g.members.push({id:uid(),name:n,upi:u,me:0});save();showG(id)}
+function delG(id){db.groups=db.groups.filter(g=>g.id!==id);db.tx=db.tx.filter(t=>t.gid!==id);closeM();save();toast('Group deleted.')}
+
+/* ---------- Add expense ---------- */
+const curG=()=>gb($('#eG').value);
+function openExp(){if(!db.groups.length){toast('Create a group first.');return openGroup()}sm='equal';items=[];
+ openM('Add an expense',`<div class="two"><div class="f"><label>Description</label><input id="eT" placeholder="Zomato order, electricity…"></div><div class="f"><label>Total (₹)</label><input id="eA" type="number" min="0" step="0.01" inputmode="decimal" placeholder="850"></div></div><div class="two"><div class="f"><label>Group</label><select id="eG" onchange="fillG()">${db.groups.map(g=>`<option value="${g.id}">${esc(g.name)}</option>`).join('')}</select></div><div class="f"><label>Paid by</label><select id="eP"></select></div></div><div class="f"><label>Date</label><input id="eD" type="date" value="${today()}"></div><div class="tabs" id="eTabs">${[['equal','Equally'],['shares','Shares'],['exact','Exact'],['items','By items']].map(([k,l])=>`<button data-m="${k}" class="${k==='equal'?'on':''}" onclick="setSm('${k}')">${l}</button>`).join('')}</div><div id="eS"></div><div class="acts"><button class="btn" onclick="closeM()">Cancel</button><button class="btn pri" onclick="saveExp()">Save expense</button></div>`);fillG()}
+function fillG(){const g=curG();$('#eP').innerHTML=g.members.map(m=>`<option value="${m.id}" ${m.me?'selected':''}>${esc(m.name)}</option>`).join('');items=[];splitUI()}
+function setSm(k){sm=k;document.querySelectorAll('#eTabs button').forEach(b=>b.classList.toggle('on',b.dataset.m===k));splitUI()}
+function splitUI(){const g=curG(),a=$('#eS');
+ if(sm==='equal')a.innerHTML=`<div class="mut" style="margin-bottom:6px">Split equally between:</div><div class="chips" style="margin:0 0 8px">${g.members.map(m=>`<label class="chip on" style="display:flex;gap:6px;align-items:center"><input type="checkbox" class="pp" value="${m.id}" checked style="width:auto" onchange="this.parentElement.classList.toggle('on',this.checked)">${esc(m.name)}</label>`).join('')}</div>`;
+ else if(sm==='shares')a.innerHTML=`<div class="mut">Give each person a number of shares (e.g. 2 for double). Use 0 to exclude.</div>`+g.members.map(m=>`<div class="sr"><span>${esc(m.name)}</span><input class="sh" data-id="${m.id}" type="number" min="0" step="0.5" value="1"></div>`).join('');
+ else if(sm==='exact')a.innerHTML=`<div class="mut">Enter each person’s exact amount (₹). They must add up to the total.</div>`+g.members.map(m=>`<div class="sr"><span>${esc(m.name)}</span><input class="ex" data-id="${m.id}" type="number" min="0" step="0.01" placeholder="0"></div>`).join('');
+ else{a.innerHTML=`<div class="mut" style="margin-bottom:6px">Paste the bill text (or read a photo), then tap who shared each item. Tax and delivery are spread in proportion.</div><textarea id="eB" rows="4" placeholder="Paneer Tikka 240&#10;Butter Naan x2 80&#10;Total ₹ 1,120"></textarea><div class="acts" style="justify-content:flex-start"><button class="btn" onclick="applyBill()">Parse text</button><input id="eF" type="file" accept="image/*" style="width:auto;max-width:170px"><button class="btn" onclick="ocr()">Read photo</button></div><div class="mut" id="eSt"></div><div id="iR"></div><button class="btn" onclick="items.push({name:'',price:'',who:curG().members.map(m=>m.id)});itemRows()">＋ Add item</button><div class="mut" id="iT" style="margin-top:8px"></div>`;itemRows()}}
+function itemRows(){const g=curG();$('#iR').innerHTML=items.map((it,i)=>`<div class="it"><div class="r2"><input value="${esc(it.name)}" placeholder="Item" oninput="items[${i}].name=this.value"><input type="number" step="0.01" value="${esc(it.price)}" placeholder="₹" oninput="items[${i}].price=this.value;itemTot()"><button class="btn" onclick="items.splice(${i},1);itemRows()" aria-label="Remove">×</button></div><div class="chips">${g.members.map(m=>`<span class="chip ${it.who.includes(m.id)?'on':''}" onclick="tg(${i},'${m.id}',this)">${esc(m.name)}</span>`).join('')}</div></div>`).join('');itemTot()}
+function tg(i,id,el){const w=items[i].who,k=w.indexOf(id);k<0?w.push(id):w.splice(k,1);el.classList.toggle('on')}
+function itemTot(){const e=$('#iT');if(e)e.textContent='Items total: '+money(items.reduce((a,x)=>a+toP(x.price),0))}
+const NUM='(\\d[\\d,]*(?:\\.\\d{1,2})?)',SKIP=/subtotal|sub total|tax|gst|cgst|sgst|delivery|discount|packing|round|upi|cash|change|paid|invoice|bill\s*no|order\s*id/i,TOT=/grand\s*total|total\s*amount|amount\s*payable|net\s*payable|^total|^bill\s*total/i;
+function applyBill(){const g=curG(),out=[];let tot=0;($('#eB').value||'').split('\n').forEach(l=>{l=l.trim().replace(/[₹]/g,' ');if(!l)return;const m=l.match(new RegExp('^(?:\\d+\\s*[x×]\\s*)?(.*?)[\\s:.\\-]*(?:rs\\.?|inr)?\\s*'+NUM+'\\s*(?:/-)?$','i'));if(!m)return;const v=m[2].replace(/,/g,'');if(TOT.test(l)){tot=Math.max(tot,parseFloat(v));return}if(SKIP.test(l)||m[1].replace(/[^a-z\u0900-\u097F\u0A00-\u0A7F]/gi,'').length<2)return;out.push({name:m[1].replace(/\s*[x×]\s*\d+$/i,'').trim(),price:v,who:g.members.map(x=>x.id)})});
+ if(!out.length)return toast('Couldn’t find items. Add them manually.');items=out;itemRows();if(tot&&!$('#eA').value)$('#eA').value=tot;$('#eSt').textContent='Found '+out.length+' items. Please check the amounts.'}
+async function ocr(){const f=$('#eF').files[0];if(!f)return toast('Choose a bill photo first.');$('#eSt').textContent='Reading bill…';
+ try{if(!window.Tesseract)await new Promise((a,b)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';s.onload=a;s.onerror=b;document.head.appendChild(s)});
+  const r=await Promise.race([Tesseract.recognize(f,'eng'),new Promise((_,j)=>setTimeout(j,30000))]);$('#eB').value=r.data.text;applyBill()}
+ catch(e){$('#eSt').textContent='Photo reading isn’t available in this environment. Paste the bill text instead.'}}
+function saveExp(){const g=curG(),title=$('#eT').value.trim(),amt=toP($('#eA').value),payer=$('#eP').value;if(!title||amt<=0)return toast('Enter a description and a total above ₹0.');let sh={};
+ if(sm==='equal'){const w={};document.querySelectorAll('.pp:checked').forEach(c=>w[c.value]=1);if(!Object.keys(w).length)return toast('Pick at least one person.');sh=splitInt(amt,w)}
+ else if(sm==='shares'){const w={};document.querySelectorAll('.sh').forEach(i=>{const v=parseFloat(i.value);if(v>0)w[i.dataset.id]=v});if(!Object.keys(w).length)return toast('Give at least one person a share.');sh=splitInt(amt,w)}
+ else if(sm==='exact'){let s=0;document.querySelectorAll('.ex').forEach(i=>{const v=toP(i.value);if(v>0){sh[i.dataset.id]=v;s+=v}});if(s!==amt)return toast('Amounts add up to '+money(s)+', expected '+money(amt)+'.')}
+ else{if(!items.length)return toast('Add at least one item.');const sub={};let s=0;for(const it of items){const p=toP(it.price);if(!it.name.trim()||p<=0||!it.who.length)return toast('Each item needs a name, price and at least one person.');s+=p;const x=splitInt(p,Object.fromEntries(it.who.map(k=>[k,1])));for(const k in x)sub[k]=(sub[k]||0)+x[k]}
+  if(s>amt)return toast('Items add up to '+money(s)+', more than the total.');const ex=amt-s,xs=ex?splitInt(ex,sub):{};sh={...sub};for(const k in xs)sh[k]+=xs[k]}
+ db.tx.unshift({id:uid(),gid:g.id,type:'exp',title,amount:amt,payer,shares:sh,date:$('#eD').value||today(),mode:sm,created:Date.now()});closeM();save();toast('Expense saved.')}
+
+/* ---------- Sample data & backup ---------- */
+function demo(){const ms=[{id:uid(),name:user.name,me:1,upi:''},{id:uid(),name:'Aman',upi:'aman@okhdfcbank'},{id:uid(),name:'Rohit',upi:'rohit@oksbi'},{id:uid(),name:'Simran',upi:'simran@ybl'}],g={id:uid(),name:'Block C · Room 204',type:'Hostel',members:ms,created:Date.now()};db.groups.push(g);
+ const all=Object.fromEntries(ms.map(m=>[m.id,1])),add=(t,a,p,s,mode)=>db.tx.unshift({id:uid(),gid:g.id,type:'exp',title:t,amount:a,payer:p.id,shares:splitInt(a,s||all),date:today(),mode:mode||'equal'});
+ add('Zomato — biryani night',84000,ms[1]);add('Electricity bill',240000,ms[0]);add('Cab to Jalandhar',180000,ms[2],{[ms[0].id]:1,[ms[2].id]:1,[ms[3].id]:2},'shares');save();toast('Sample group added.')}
+function openBackup(){openM('Backup & restore',`<div class="mut" style="margin-bottom:8px">Copy this text to back up your data, or paste a backup below and restore. Restoring merges with what you have.</div><textarea id="bk" rows="8">${esc(JSON.stringify(db))}</textarea><div class="acts"><button class="btn" onclick="cp($('#bk').value)">Copy</button><button class="btn pri" onclick="restore()">Restore pasted backup</button></div>`)}
+function restore(){try{const d=JSON.parse($('#bk').value);if(!Array.isArray(d.groups)||!Array.isArray(d.tx))throw 0;const gi=new Set(db.groups.map(g=>g.id)),ti=new Set(db.tx.map(t=>t.id));d.groups.forEach(g=>{if(!gi.has(g.id)&&g.members?.some(m=>m.me))db.groups.push(g)});d.tx.forEach(t=>{if(!ti.has(t.id)&&gb(t.gid))db.tx.push(t)});db.tx.sort((a,b)=>(b.date>a.date)-(b.date<a.date));closeM();save();toast('Backup restored.')}catch(e){toast('That backup isn’t valid.')}}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
+$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeM()});
+const s0=API.restore();if(s0)start(s0);
+</script>
+</body>
+</html>
